@@ -13,17 +13,32 @@ for (var i = 0; i < movies.length; i++){
     $(movieButton).attr("class","btn btn-dark mb-2 mr-2 movieButton");
     $(movieButton).attr("data-title", movies[i]);
     $(movieButton).html(movies[i]);
-    
     $(".buttonContainer").append(movieButton);
-     
  }  
+
+ //create button from search
+ $(".search").click(function(event){
+    event.preventDefault();
+    var searchInput = $("#search").val(); 
+    console.log(searchInput);
+    var searchButton = $("<button>");
+    $(searchButton).attr("class","btn btn-dark mb-2 mr-2 movieButton");
+    $(searchButton).attr("data-title", searchInput);
+    $(searchButton).html(searchInput);
+    $(".buttonContainer").append(searchButton);
+  });
   
-  
-  
+  //onclick to push title to queryurl
+  $(".movieButton").click(function(event){
+      var movie = $(this).val();
+      displayGif();
+  });
+   
+  function displayGif(){
     //ajax 
     var movie = "";
     var queryURL =`https://api.giphy.com/v1/gifs/search?api_key=qlUDI8Aoc6dQqRqwyAD05KgWuV5oLMC6&q=${movie}&limit=9&offset=0&lang=en`
-    
+    console.log(movie);
     
     $.ajax({
         url: queryURL,
@@ -31,10 +46,6 @@ for (var i = 0; i < movies.length; i++){
       }).then(function(response) {
           console.log(response);
           
-        
-
-
-
            //variables to hold all of the items we want from API call
            var stillURL = response.data[i].images.downsized_still.url;
            console.log(stillURL);
@@ -53,3 +64,4 @@ for (var i = 0; i < movies.length; i++){
          
           }
       });
+    }

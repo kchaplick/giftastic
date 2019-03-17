@@ -63,7 +63,10 @@ function displayGif() {
             //create img and append to card
             var gifImg = $("<img>");
             $(gifImg).attr("src",stillURL);
-            $(gifImg).attr("class", `card-img-top ${state} gifImg`);
+            $(gifImg).attr("class", `card-img-top gifImg`);
+            $(gifImg).attr("data-state", `${state}`);
+            $(gifImg).attr("data-still", `${stillURL}`);
+            $(gifImg).attr("data-animate", `${animateURL}`);
             console.log(state);
             $(gifCard).append(gifImg);
             //create text body and append to img
@@ -80,11 +83,28 @@ function displayGif() {
             $(gifRating).text(rating);
             $(gifTitle).append(gifRating); 
 
-        }
+        };
     });
-}
+};
 
+//onclick for gif animation
 $(document).on("click", ".gifImg", function(){
+    var getState = $(this).data("state");
+    var still = $(this).data("still");
+    var animate = $(this).data("animate");
+    console.log("After click state is " + getState);
 
+    if (getState == "still"){
+        $(this).attr("src",animate);
+        $(this).data('state',"animate");
+        alert($(this).data("state"));
+    
+
+    } else{
+        $(this).attr("src",still);
+        $(this).data('state',"still");
+        
+        
+    }
 
 })

@@ -10,7 +10,7 @@ var animate = "";
 //create buttons from array
 for (var i = 0; i < movies.length; i++) {
     var movieButton = $("<button>");
-    $(movieButton).attr("class", "btn btn-dark mb-2 mr-2 movieButton");
+    $(movieButton).attr("class", "btn btn-light mb-2 mr-2 movieButton");
     $(movieButton).attr("data-title", movies[i]);
     $(movieButton).html(movies[i]);
     $(".buttonContainer").append(movieButton);
@@ -22,7 +22,7 @@ $(".search").click(function (event) {
     var searchInput = $("#search").val();
     console.log(searchInput);
     var searchButton = $("<button>");
-    $(searchButton).attr("class", "btn btn-dark mb-2 mr-2 movieButton");
+    $(searchButton).attr("class", "btn btn-light mb-2 mr-2 movieButton");
     $(searchButton).attr("data-title", searchInput);
     $(searchButton).html(searchInput);
     $(".buttonContainer").append(searchButton);
@@ -57,18 +57,18 @@ function displayGif() {
 
             //create a bootstrap card
             var gifCard = $("<div>");
-            $(gifCard).attr("class", "card mb-10")
+            $(gifCard).attr("class", "card  gifCard mr-10")
             $(gifCard).attr("style", "width: 18rem;")
             $(".gifContainer").append(gifCard); 
             //create img and append to card
             var gifImg = $("<img>");
             $(gifImg).attr("src",stillURL);
-            $(gifImg).attr("class", `card-img-top ${state}`);
+            $(gifImg).attr("class", `card-img-top ${state} gifImg`);
             console.log(state);
             $(gifCard).append(gifImg);
             //create text body and append to img
             var gifInfoContainer = $("<div>");
-            $(gifInfoContainer).attr("class", "card-body");
+            $(gifInfoContainer).attr("class", "card-body mb-10");
             $(gifCard).append(gifInfoContainer);
              //create para and append to img
              var gifTitle = $("<p>");
@@ -80,8 +80,11 @@ function displayGif() {
             $(gifRating).text(rating);
             $(gifTitle).append(gifRating); 
 
-
-
         }
     });
 }
+
+$(document).on("click", ".gifImg", function(){
+
+
+})

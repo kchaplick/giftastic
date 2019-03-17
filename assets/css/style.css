@@ -1,0 +1,17 @@
+.searchContainer{
+    justify-content:center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.buttonContainer{
+    margin-bottom: 20px;
+}
+.gifContainer{
+    justify-content: center;
+}
+
+.gifCard{
+    margin-right: 20px;
+    margin-bottom: 20px;
+}

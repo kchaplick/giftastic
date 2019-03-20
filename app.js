@@ -1,17 +1,21 @@
 
 //create variable to hold array of existing example buttons
-var movies = ["The Lion King", "The Little Mermaid", "Cinderella", "Beauty and the Beast", "Aladdin", "Toy Story", "Up", "The Incredibles", "The Jungle Book"];
+var movies = ["The Lion King", "The Little Mermaid", "Cinderella", "Beauty and the Beast", "Aladdin", "Toy Story", "Mary Poppins", "The Incredibles", "The Jungle Book"];
 //global variables 
 var state = "still";
 var still = "";
 var animate = "";
+var clickCount = 0;
+
+
 
 
 //create buttons from array
 for (var i = 0; i < movies.length; i++) {
     var movieButton = $("<button>");
-    $(movieButton).attr("class", "btn btn-light mb-2 mr-2 movieButton");
+    $(movieButton).attr("class", "btn btn-light mb-2 mr-2 movieButton gifButton");
     $(movieButton).attr("data-title", movies[i]);
+    $(movieButton).attr("data-offset", "-9");
     $(movieButton).html(movies[i]);
     $(".buttonContainer").append(movieButton);
 }
@@ -22,19 +26,43 @@ $(".search").click(function (event) {
     var searchInput = $("#search").val();
     console.log(searchInput);
     var searchButton = $("<button>");
-    $(searchButton).attr("class", "btn btn-light mb-2 mr-2 movieButton");
+    $(searchButton).attr("class", "btn btn-light mb-2 mr-2 movieButton gifButton");
     $(searchButton).attr("data-title", searchInput);
+    $(searchButton).attr("data-offset", "-9");
     $(searchButton).html(searchInput);
     $(".buttonContainer").append(searchButton);
 });
 
+
+$(document).on("click", ".gifButton", function(){
+    var getDataOffset = $(this).data("offset");
+    console.log("Data offset is " + getDataOffset)
+    var makeOffsetInt = parseInt(getDataOffset);
+    var dataOffsetUpdate = makeOffsetInt + 9
+    console.log("Updated data var is ", dataOffsetUpdate );
+    $(this).data("offset", dataOffsetUpdate);
+    
+});
+
 //onclick to push title to queryurl
 $(document).on("click", ".movieButton", displayGif);
+   
+
+ 
+ 
 
 function displayGif() {
+    
+
+
+
+
+    var offset = parseInt($(this).data("offset"));
+
     //ajax 
     var movie = $(this).attr("data-title");
-    var queryURL = `https://api.giphy.com/v1/gifs/search?api_key=qlUDI8Aoc6dQqRqwyAD05KgWuV5oLMC6&q=${movie}&limit=9&offset=0&lang=en`
+    var queryURL = `https://api.giphy.com/v1/gifs/search?api_key=qlUDI8Aoc6dQqRqwyAD05KgWuV5oLMC6&q=${movie}&limit=9&offset=${offset}&lang=en`
+    
     
 
     $.ajax({
@@ -46,9 +74,9 @@ function displayGif() {
         //for loop 
         for (var i = 0; i < response.data.length; i++) {
             //variables to hold all of the items we want from API call
-        var stillURL = response.data[i].images.downsized_still.url;
+        var stillURL = response.data[i].images.fixed_height_still.url;
         console.log(stillURL);
-        var animateURL = response.data[i].images.fixed_width.url
+        var animateURL = response.data[i].images.fixed_height.url
         console.log(animateURL);
         var gifName = response.data[i].title;
         console.log(gifName);
@@ -57,9 +85,9 @@ function displayGif() {
 
             //create a bootstrap card
             var gifCard = $("<div>");
-            $(gifCard).attr("class", "card  gifCard mr-10")
-            $(gifCard).attr("style", "width: 18rem;")
-            $(".gifContainer").append(gifCard); 
+            $(gifCard).attr("class", "card  gifCard")
+            $(gifCard).attr("style", "width: 17rem;")
+            $(".gifContainer").prepend(gifCard); 
             //create img and append to card
             var gifImg = $("<img>");
             $(gifImg).attr("src",stillURL);
@@ -67,6 +95,7 @@ function displayGif() {
             $(gifImg).attr("data-state", `${state}`);
             $(gifImg).attr("data-still", `${stillURL}`);
             $(gifImg).attr("data-animate", `${animateURL}`);
+            //$(".gifImg:hover").css({"backgroundColor":"black","color":"white");
             console.log(state);
             $(gifCard).append(gifImg);
             //create text body and append to img
@@ -76,15 +105,22 @@ function displayGif() {
              //create para and append to img
              var gifTitle = $("<p>");
             $(gifTitle).attr("class", "card-text");
-            $(gifTitle).text(gifName);
+            $(gifTitle).text(`Title: ${gifName}`);
             $(gifInfoContainer).append(gifTitle); 
             var gifRating = $("<p>");
             $(gifRating).attr("class", "card-text");
-            $(gifRating).text(rating);
+            $(gifRating).text(`Rating: ${rating}`);
             $(gifTitle).append(gifRating); 
 
         };
+    
     });
+    /*var getDataOffset = $(this).data("offset");
+    console.log("Data offset is " + getDataOffset)
+    var makeOffsetInt = parseInt(getDataOffset);
+    var dataOffsetUpdate = makeOffsetInt + 9
+    console.log("Updated data var is ", dataOffsetUpdate );
+    $(this).attr("data-offset", dataOffsetUpdate);*/
 };
 
 //onclick for gif animation
@@ -97,7 +133,7 @@ $(document).on("click", ".gifImg", function(){
     if (getState == "still"){
         $(this).attr("src",animate);
         $(this).data('state',"animate");
-        alert($(this).data("state"));
+        
     
 
     } else{

@@ -4,14 +4,31 @@
     margin-bottom: 20px;
 }
 
+.search{
+    cursor: pointer;
+}
+
 .buttonContainer{
     margin-bottom: 20px;
 }
 .gifContainer{
     justify-content: center;
+    
 }
 
 .gifCard{
     margin-right: 20px;
     margin-bottom: 20px;
 }
+
+.gifImg{
+    max-height: 10rem;
+    cursor: pointer;
+}
+
+@media (max-width: 425px) {
+    .gifCard{
+        margin-right:0px;
+        margin-bottom: 20px;
+    }
+} 
